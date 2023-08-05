@@ -1,47 +1,19 @@
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 
-def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
-
-def soft_thresholding(x, threshold):
-    if x > threshold:
-        return x - threshold
-    elif x < -threshold:
-        return x + threshold
-    else:
-        return 0.0
-
-def coordinate_descent_logistic(X, y, regularization_param, tolerance=1e-4, max_iterations=1000):
-    n_samples, n_features = len(X), len(X[0])
-    coefficients = [0.0 for _ in range(n_features)]
-    prev_coefficients = [0.0 for _ in range(n_features)]
-
-    for _ in range(max_iterations):
-        for j in range(n_features):
-            # Update the j-th coefficient
-            X_j = np.array([X[i][j] for i in range(n_samples)])
-            y_pred_except_j = np.dot(X, coefficients) - coefficients[j] * X_j
-            c_j = np.dot(X_j, y - sigmoid(y_pred_except_j)) / np.dot(X_j, X_j)
-
-            # Apply L1 regularization (Lasso) to update the coefficient
-            coefficients[j] = soft_thresholding(c_j, regularization_param)
-
-        # Check for convergence
-        if np.linalg.norm(np.array(coefficients) - np.array(prev_coefficients)) < tolerance:
-            break
-
-        prev_coefficients = coefficients.copy()
-
-    return coefficients.tolist()
-
-# Input data
 X = [[1, 2], [2, 3], [3, 4], [4, 5]]
 y = [0, 0, 1, 1]
 regularization_param = 0.1
 tolerance = 0.001
 
-# Train the logistic regression model with Lasso regularization using coordinate descent
-coefficients = coordinate_descent_logistic(X, y, regularization_param, tolerance)
+def logistic_regression_with_l1_regularization(X, y, regularization_param, tolerance):
+    # Create the Logistic Regression model with L1 regularization
+    model = LogisticRegression(penalty='l1', C=1/regularization_param, tol=tolerance, solver='liblinear', random_state=0)
+    
+    # Train the model
+    model.fit(X, y)
+    return model
 
-# Print the result
-print("Optimized coefficients:", coefficients)
+model = logistic_regression_with_l1_regularization(X, y, regularization_param, tolerance)
+
+model.coef_
