@@ -1,39 +1,16 @@
 import numpy as np
-import skfuzzy as fuzz
-
-def fuzzy_c_means_clustering(X, c):
-    # Number of data points
-    n_samples = X.shape[0]
-
-    # Number of features
-    n_features = X.shape[1]
-
-    # Maximum number of iterations
-    max_iter = 1000
-
-    # Fuzziness coefficient (m)
-    fuzziness = 2.0
-
-    # Termination threshold
-    epsilon = 1e-6
-
-    # Initialize the cluster centers randomly
-    cluster_centers = np.random.rand(c, n_features)
-
-    # Perform Fuzzy C-means clustering
-    cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
-        X.T, c, m=fuzziness, error=epsilon, maxiter=max_iter, init=cluster_centers
-    )
-    return cntr.T
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 
 # Input data
 X = np.array([[1, 2], [2, 3], [10, 12], [11, 13], [20, 25], [22, 24]])
+k = 3
 
-# Number of clusters (c) for Fuzzy C-means clustering
-c = 3
+# Perform k-means clustering
+kmeans = KMeans(n_clusters=k, init='k-means++', random_state=0)
+y_kmeans = kmeans.fit_predict(X)
 
-# Perform Fuzzy C-means clustering
-cluster_centers = fuzzy_c_means_clustering(X, c)
-
-# Print the output
-print("Cluster Centers:", cluster_centers.tolist())
+# Extract the cluster centers and labels
+cluster_centers = kmeans.cluster_centers_
+labels = kmeans.labels_
+labels
