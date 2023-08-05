@@ -1,30 +1,28 @@
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
 import numpy as np
-import pydotplus
-from sklearn.tree import export_graphviz
-from IPython.display import Image
-
-def visualize_decision_tree(tree, feature_names, class_names):
-    dot_data = export_graphviz(tree, out_file=None,
-                               feature_names=feature_names,
-                               class_names=class_names,
-                               filled=True, rounded=True,
-                               special_characters=True)
-
-    graph = pydotplus.graph_from_dot_data(dot_data)
-    return graph
-
-# Example decision tree (output from the previous code)
-decision_tree = {'feature_index': 0,
-                 'threshold': 3,
-                 'left': {'class': 0},
-                 'right': {'class': 1}}
 
 # Input data
-X = np.array([[1, 2], [2, 3], [3, 4], [4, 5]])
-y = np.array([0, 0, 1, 1])
-feature_names = ['Feature 1', 'Feature 2']
-class_names = ['Class 0', 'Class 1']
+X = [[1, 2], [2, 3], [3, 4], [4, 5]]
+y = [0, 0, 1, 1]
 
-# Visualize the decision tree
-graph = visualize_decision_tree(decision_tree, feature_names, class_names)
-Image(graph.create_png())
+def visualize_decision_tree(X, y):
+    # Create the decision tree classifier with CART algorithm
+    clf = DecisionTreeClassifier()
+
+    # Train the model using the input data
+    clf.fit(X, y)
+    
+    # Obtain a text representation of the decision tree
+    tree_text = export_text(clf, feature_names=[f'Feature {i+1}' for i in range(len(X[0]))])
+    print("Decision Tree Text Representation:")
+    print(tree_text)
+    
+    # Create a graphical representation of the decision tree
+    plt.figure(figsize=(10, 6))
+    plot_tree(clf, filled=True, feature_names=[f'Feature {i+1}' for i in range(len(X[0]))], class_names=['Class 0', 'Class 1'])
+    
+    plt.show()
+
+# Call the visualization function
+visualize_decision_tree(X, y)
