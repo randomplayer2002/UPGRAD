@@ -5,6 +5,7 @@ batch_size = 2
 num_iterations = 1000
 regularization_term = 0.1
 random_state=42
+
 from sklearn.linear_model import SGDRegressor
 from sklearn.preprocessing import StandardScaler
 
