@@ -1,30 +1,14 @@
-import numpy as np
+from sklearn.tree import DecisionTreeClassifier
 
-def predict_sample(sample, tree):
-    if 'class' in tree:
-        return tree['class']
+# Input data
+X_train = [[1, 2], [2, 3], [3, 4], [4, 5]]
+y = [0, 0, 1, 1]
+X_val = [[2, 4], [1, 3], [3, 5]]
 
-    feature_index = tree['feature_index']
-    threshold = tree['threshold']
+# Create the decision tree classifier with CART algorithm
+clf = DecisionTreeClassifier(random_state=0)
 
-    if sample[feature_index] < threshold:
-        return predict_sample(sample, tree['left'])
-    else:
-        return predict_sample(sample, tree['right'])
-
-def predict(X_new, tree):
-    return [predict_sample(sample, tree) for sample in X_new]
-
-# Example decision tree (output from the previous code)
-decision_tree = {'feature_index': 0,
-                 'threshold': 3,
-                 'left': {'class': 0},
-                 'right': {'class': 1}}
-
-# Input data for prediction
-X_new = np.array([[1, 3], [1, 4], [2, 3]])
-
-# Predict class labels using the trained decision tree classifier
-predicted_labels = predict(X_new, decision_tree)
-
-print("Predicted class labels:", predicted_labels)
+# Train the model using the input data
+clf.fit(X_train, y)
+predictions = clf.predict(X_val)
+predictions
