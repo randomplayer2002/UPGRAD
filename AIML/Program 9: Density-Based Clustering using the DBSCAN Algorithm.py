@@ -1,24 +1,21 @@
-import numpy as np
 from sklearn.cluster import DBSCAN
-
-def density_based_clustering(X, epsilon, min_samples):
-    # Initialize the DBSCAN clustering algorithm
-    dbscan = DBSCAN(eps=epsilon, min_samples=min_samples)
-    
-    # Perform clustering and get the cluster labels
-    cluster_labels = dbscan.fit_predict(X)
-    
-    return cluster_labels
+import numpy as np
 
 # Input data
 X = np.array([[1, 2], [2, 3], [10, 12], [11, 13], [20, 25], [22, 24]])
-
-# Parameters for DBSCAN (epsilon and min_samples)
 epsilon = 3
 min_samples = 2
 
-# Perform density-based clustering using the DBSCAN algorithm
-cluster_labels = density_based_clustering(X, epsilon, min_samples)
+def perform_dbscan_clustering(X, epsilon, min_samples):
+    # Create a DBSCAN object with the specified epsilon and min_samples
+    dbscan = DBSCAN(eps=epsilon, min_samples=min_samples)
+    
+    # Perform clustering on the data
+    clustering_labels = dbscan.fit_predict(X)
+    
+    # Return the clustering labels
+    return clustering_labels
 
-# Print the output
-print("Cluster Labels:", cluster_labels.tolist())
+# Perform DBSCAN clustering
+labels = perform_dbscan_clustering(X, epsilon, min_samples)
+labels
