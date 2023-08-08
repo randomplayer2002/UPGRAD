@@ -1,6 +1,5 @@
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
-import matplotlib.pyplot as plt
 
 # Input data
 X = np.array([[1, 2], [2, 3], [10, 12], [11, 13], [20, 25], [22, 24]])
