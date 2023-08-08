@@ -19,7 +19,7 @@ def visualize_decision_tree(X, y):
     print(tree_text)
     
     # Create a graphical representation of the decision tree
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 10))
     plot_tree(clf, filled=True, feature_names=[f'Feature {i+1}' for i in range(len(X[0]))], class_names=['Class 0', 'Class 1'])
     
     plt.show()
