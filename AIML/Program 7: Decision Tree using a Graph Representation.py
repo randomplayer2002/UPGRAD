@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
-import numpy as np
 
 # Input data
 X = [[1, 2], [2, 3], [3, 4], [4, 5]]
